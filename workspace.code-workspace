@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../Scrapper"
+		},
+		{
+			"path": "../gopracise"
+		}
+	],
+	"settings": {}
+}
