@@ -30,49 +30,59 @@ func XssScanner(urlStr string, paramKey string) {
 	// html context
 
 	//[+] Between Tags
-	fmt.Println("[*]checking for Reflection Between Tags")
+	// fmt.Println("[*]checking for Reflection Between Tags")
 
-	reflectedTag, OK := ReflectionBetweenTag(urlParsed.String(), payload)
+	// reflectedTag, OK := ReflectionBetweenTag(urlParsed.String(), payload)
 
-	if OK {
-		fmt.Println("[!]Reflected Between Tag", reflectedTag)
+	// if OK {
+	// 	fmt.Println("[!]Reflected Between Tag", reflectedTag)
 
-		fmt.Println("[*] BruteForce Payloads ")
-		BruteForce(urlParsed, QueryMap, paramKey, reflectedTag)
+	// 	fmt.Println("[*] BruteForce Payloads ")
+	// 	BruteForce(urlParsed, QueryMap, paramKey, reflectedTag)
 
-		fmt.Println("[*]Starting Intelligent Fuzz")
-		BetweenTags(urlParsed, QueryMap, paramKey, reflectedTag)
+	// 	fmt.Println("[*]Starting Intelligent Fuzz")
+	// 	BetweenTags(urlParsed, QueryMap, paramKey, reflectedTag)
 
-	} else {
-		fmt.Println("[-]No Reflection Between Tags")
-	}
+	// } else {
+	// 	fmt.Println("[-]No Reflection Between Tags")
+	// }
 
-	//[+] Html Attributes
-	fmt.Println("[+]checking for Reflection in Attributes")
+	// //[+] Html Attributes
+	// fmt.Println("[+]checking for Reflection in Attributes")
 
-	QueryMap.Set(paramKey, payload)
-	urlParsed.RawQuery = QueryMap.Encode()
+	// QueryMap.Set(paramKey, payload)
+	// urlParsed.RawQuery = QueryMap.Encode()
 
-	reflectedTag, attribute, OK := ReflectionInAtributes(urlParsed.String(), payload)
+	// reflectedTag, attribute, OK := ReflectionInAtributes(urlParsed.String(), payload)
 
-	if OK {
-		fmt.Println("[!]Reflected Tag", reflectedTag)
-		fmt.Println("[!]Attribute", attribute)
+	// if OK {
+	// 	fmt.Println("[!]Reflected Tag", reflectedTag)
+	// 	fmt.Println("[!]Attribute", attribute)
 
-		fmt.Println("[*] BruteForce Payloads ")
-		BruteForceAttributes(urlParsed, QueryMap, paramKey, reflectedTag)
+	// 	fmt.Println("[*] BruteForce Payloads ")
+	// 	BruteForceAttributes(urlParsed, QueryMap, paramKey, reflectedTag)
 
-		fmt.Println("[*]Starting Intelligent Fuzz")
-		BetweenAttributes(urlParsed, QueryMap, paramKey, reflectedTag)
+	// 	fmt.Println("[*]Starting Intelligent Fuzz")
+	// 	BetweenAttributes(urlParsed, QueryMap, paramKey, reflectedTag)
 
-	} else {
-		fmt.Println("[-]No Reflection Tags Attributes")
-	}
+	// } else {
+	// 	fmt.Println("[-]No Reflection Tags Attributes")
+	// }
 
 	//[+] javascript Context
 
 	fmt.Println("[+]In Javascript Context")
 	QueryMap.Set(paramKey, payload)
 	urlParsed.RawQuery = QueryMap.Encode()
+	Reflected, OK := ReflectionJavascript(urlParsed.String(), payload)
 
+	if OK {
+		fmt.Println("[!]Script Context", Reflected)
+
+		fmt.Println("[*] BruteForce Payloads ")
+		BruteForceScript(urlParsed, QueryMap, paramKey)
+
+		fmt.Println("[*]Starting Intelligent Fuzz")
+		JavascriptContext()
+	}
 }
